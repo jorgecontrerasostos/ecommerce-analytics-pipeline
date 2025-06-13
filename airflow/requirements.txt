@@ -1,0 +1,8 @@
+apache-airflow-providers-postgres
+apache-airflow-providers-amazon
+dbt-core
+dbt-redshift
+boto3
+pandas
+faker
+requests
