@@ -112,6 +112,3 @@ print(f"Generated:")
 print(f"- {len(customers_df)} customers")
 print(f"- {len(products_df)} products")
 print(f"- {len(orders_df)} orders")
-
-print("\nFirst 5 orders:")
-print(orders_df.head())
