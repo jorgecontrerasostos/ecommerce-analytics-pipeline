@@ -38,6 +38,7 @@ def validate_data_files():
             print(f"- Columns: {', '.join(df.columns)}")
             print(f"- First 2 rows:")
             print(df.head(2))
+            print(df.info())
             print("-" * 50)
         except Exception as e:
             print(f"Error reading {file}: {e}")
