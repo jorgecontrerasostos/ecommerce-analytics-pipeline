@@ -6,3 +6,7 @@ boto3
 pandas
 faker
 requests
+python-dotenv
+psycopg2-binary
+sqlalchemy
+sqlalchemy-redshift
