@@ -55,6 +55,7 @@ def upload_to_s3(file_path, bucket, key):
 
 def create_redshift_connection():
     """Create connection to Redshift using psycopg2"""
+
     try:
         conn = psycopg2.connect(
             host=REDSHIFT_HOST,
@@ -63,14 +64,20 @@ def create_redshift_connection():
             user=REDSHIFT_USER,
             password=REDSHIFT_PASSWORD,
         )
+        print("✅ Connection successful!")
         return conn
     except Exception as e:
-        print(f"Error connecting to Redshift: {e}")
+        print(f"❌ Error connecting to Redshift: {e}")
         return None
 
 
 def create_tables(conn):
     """Create tables in Redshift"""
+
+    create_schemas = """
+    CREATE SCHEMA IF NOT EXISTS staging;
+    CREATE SCHEMA IF NOT EXISTS analytics;
+    """
 
     create_customers = """
     CREATE TABLE IF NOT EXISTS staging.customers (
@@ -106,11 +113,12 @@ def create_tables(conn):
 
     cur = conn.cursor()
     try:
+        cur.execute(create_schemas)
         cur.execute(create_customers)
         cur.execute(create_products)
         cur.execute(create_orders)
         conn.commit()
-        print("Tables created successfully!")
+        print("Schemas and tables created successfully!")
     except Exception as e:
         print(f"Error creating tables: {e}")
         conn.rollback()
