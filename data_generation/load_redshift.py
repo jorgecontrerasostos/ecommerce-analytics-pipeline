@@ -179,7 +179,6 @@ def main(skip_s3_upload=False):
 
     print("Starting data loading process...")
 
-    # Step 1: Upload CSV files to S3 (optional)
     if not skip_s3_upload:
         print("\n1. Uploading CSV files to S3...")
         for csv_file in csv_files:
@@ -198,29 +197,25 @@ def main(skip_s3_upload=False):
     else:
         print("\n1. Skipping S3 upload (using existing files)")
 
-    # Step 2: Connect to Redshift
     print("\n2. Connecting to Redshift...")
     conn = create_redshift_connection()
     if not conn:
         print("Failed to connect to Redshift. Exiting.")
         return
 
-    # Step 3: Create tables
     print("\n3. Creating tables...")
     create_tables(conn)
 
-    # Step 4: Load data from S3 to Redshift
     print("\n4. Loading data from S3 to Redshift...")
     for csv_file in csv_files:
         table_name = csv_file["table"]
         s3_path = f"s3://{S3_BUCKET}/data/{table_name}.csv"
         copy_from_s3_to_redshift(conn, table_name, s3_path)
 
-    # Close connection
     conn.close()
     print("\nData loading process completed!")
 
 
 if __name__ == "__main__":
-    # Set skip_s3_upload=True if your data is already in S3
+
     main(skip_s3_upload=False)
