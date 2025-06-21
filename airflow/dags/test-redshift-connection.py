@@ -4,7 +4,7 @@ from airflow.providers.postgres.operators.postgres import PostgresOperator
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 
 default_args = {
-    "owner": "data-engineer",
+    "owner": "jorge-contreras",
     "depends_on_past": False,
     "start_date": datetime(2024, 1, 1),
     "email_on_failure": False,
@@ -19,6 +19,7 @@ dag = DAG(
     description="Test Redshift connection",
     schedule_interval=None,
     catchup=False,
+    tags=["redshift", "connection-test"],
 )
 
 test_redshift_connection = PostgresOperator(
