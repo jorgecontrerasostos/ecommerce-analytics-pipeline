@@ -1,0 +1,13 @@
+ecommerce_analytics:
+  target: dev
+  outputs:
+    dev:
+      type: redshift
+      host: "{{ env_var('REDSHIFT_HOST') }}"
+      user: "{{ env_var('REDSHIFT_USER') }}"
+      password: "{{ env_var('REDSHIFT_PASSWORD') }}"
+      port: 5439
+      dbname: "{{ env_var('REDSHIFT_DB') }}"
+      schema: analytics
+      threads: 4
+      keepalives_idle: 240

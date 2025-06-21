@@ -1,0 +1,73 @@
+version: 2
+
+sources:
+  - name: ecommerce
+    description: Raw e-commerce data
+    schema: staging
+    tables:
+      - name: customers
+        description: Customer information
+        columns:
+          - name: customer_id
+            description: Unique customer identifier
+            tests:
+              - unique
+              - not_null
+      - name: products
+        description: Product catalog
+        columns:
+          - name: product_id
+            description: Unique product identifier
+            tests:
+              - unique
+              - not_null
+      - name: orders
+        description: Order transactions
+        columns:
+          - name: order_id
+            description: Unique order identifier
+            tests:
+              - unique
+              - not_null
+
+models:
+  - name: stg_customers
+    description: Staged customer data with enhancements
+    columns:
+      - name: customer_id
+        description: Unique customer identifier
+        tests:
+          - unique
+          - not_null
+      - name: full_name
+        description: Customer's full name
+        tests:
+          - not_null
+
+  - name: stg_products
+    description: Staged product data with price tiers
+    columns:
+      - name: product_id
+        description: Unique product identifier
+        tests:
+          - unique
+          - not_null
+      - name: price_tier
+        description: Product price categorization
+        tests:
+          - accepted_values:
+              values: ['Low', 'Medium', 'High']
+
+  - name: stg_orders
+    description: Staged order data with time dimensions
+    columns:
+      - name: order_id
+        description: Unique order identifier
+        tests:
+          - unique
+          - not_null
+      - name: is_completed
+        description: Order completion flag
+        tests:
+          - accepted_values:
+              values: [0, 1]

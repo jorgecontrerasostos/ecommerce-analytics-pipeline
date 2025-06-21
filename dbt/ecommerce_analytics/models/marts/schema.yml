@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: fct_orders
+    description: Order facts with calculated revenue
+    columns:
+      - name: order_id
+        description: Unique order identifier
+        tests:
+          - unique
+          - not_null
+      - name: order_value
+        description: Total order value
+        tests:
+          - not_null
+
+  - name: sales_monthly
+    description: Monthly sales aggregations
+    columns:
+      - name: order_year
+        description: Order year
+        tests:
+          - not_null
+      - name: order_month
+        description: Order month
+        tests:
+          - not_null
+      - name: total_revenue
+        description: Total monthly revenue
+        tests:
+          - not_null
+
+  - name: sales_by_category
+    description: Sales performance by product category
+    columns:
+      - name: category
+        description: Product category
+        tests:
+          - unique
+          - not_null
+      - name: total_revenue
+        description: Category total revenue
+        tests:
+          - not_null
