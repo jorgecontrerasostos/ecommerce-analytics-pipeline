@@ -34,10 +34,10 @@ def generate_data(**context):
     print("=== Starting generate_data function ===")
 
     execution_date = context["execution_date"]
-    # Use a smaller unique identifier based on date/time
+
     date_str = execution_date.strftime("%Y%m%d")
     hour_minute = execution_date.strftime("%H%M")
-    unique_base = int(date_str[-4:] + hour_minute)  # Last 4 digits of date + time
+    unique_base = int(date_str[-4:] + hour_minute)
 
     print(f"Execution date: {execution_date}")
     print(f"Using unique base: {unique_base} (from {date_str}{hour_minute})")
@@ -46,7 +46,6 @@ def generate_data(**context):
         print("Generating customers...")
         new_customers = generate_customers(num_customers=10)
 
-        # Use smaller, safe unique IDs
         new_customers["customer_id"] = range(
             100000 + unique_base, 100000 + unique_base + len(new_customers)
         )
@@ -57,7 +56,6 @@ def generate_data(**context):
         print("Generating orders...")
         new_orders = generate_orders(num_orders=50, num_customers=1000, num_products=500)
 
-        # Use smaller, safe unique IDs
         new_orders["order_id"] = range(500000 + unique_base, 500000 + unique_base + len(new_orders))
         new_orders["order_date"] = execution_date.date()
         print(f"Order IDs: {new_orders['order_id'].min()} to {new_orders['order_id'].max()}")
@@ -91,7 +89,6 @@ def upload_to_s3(**context):
     execution_date = context["execution_date"]
     execution_date_str = execution_date.strftime("%Y%m%d")
 
-    # AWS credentials from environment
     s3_client = boto3.client(
         "s3",
         aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
@@ -136,7 +133,6 @@ def load_to_redshift(**context):
     execution_date = context["execution_date"]
     execution_date_str = execution_date.strftime("%Y%m%d")
 
-    # Connect to Redshift
     conn = psycopg2.connect(
         host=os.getenv("REDSHIFT_HOST"),
         port=os.getenv("REDSHIFT_PORT", "5439"),
