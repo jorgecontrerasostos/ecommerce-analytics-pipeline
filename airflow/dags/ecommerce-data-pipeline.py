@@ -31,7 +31,7 @@ dag = DAG(
 
 
 def generate_data(**context):
-    print("=== Starting generate_data function ===")
+    print("Starting generate_data function")
 
     execution_date = context["execution_date"]
 
@@ -72,7 +72,7 @@ def generate_data(**context):
         new_orders.to_csv(orders_file, index=False)
         print("Orders saved successfully!")
 
-        print("=== Function completed successfully ===")
+        print(" Function completed successfully ")
         return f"Generated daily data for {execution_date_str}"
 
     except Exception as e:
@@ -84,7 +84,7 @@ def generate_data(**context):
 
 
 def upload_to_s3(**context):
-    print("=== Starting S3 upload ===")
+    print("Starting S3 upload")
 
     execution_date = context["execution_date"]
     execution_date_str = execution_date.strftime("%Y%m%d")
@@ -119,7 +119,7 @@ def upload_to_s3(**context):
             s3_client.upload_file(local_path, bucket_name, s3_key)
             print(f"Successfully uploaded {s3_key}")
 
-        print("=== S3 upload completed ===")
+        print("S3 upload completed")
         return f"Uploaded files for {execution_date_str}"
 
     except Exception as e:
@@ -128,7 +128,7 @@ def upload_to_s3(**context):
 
 
 def load_to_redshift(**context):
-    print("=== Starting Redshift loading ===")
+    print(" Starting Redshift loading ")
 
     execution_date = context["execution_date"]
     execution_date_str = execution_date.strftime("%Y%m%d")
@@ -172,7 +172,7 @@ def load_to_redshift(**context):
         cur.execute(orders_copy)
         print("Orders loaded from S3!")
 
-        # Insert new customers (avoid duplicates)
+        # Insert new customers
         print("Inserting new customers...")
         cur.execute(
             """
@@ -183,7 +183,7 @@ def load_to_redshift(**context):
         )
         print("New customers inserted!")
 
-        # Insert new orders (avoid duplicates)
+        # Insert new orders
         print("Inserting new orders...")
         cur.execute(
             """
@@ -204,7 +204,7 @@ def load_to_redshift(**context):
         print(f"Processed {temp_customers_count} customers and {temp_orders_count} orders")
 
         conn.commit()
-        print("=== Redshift loading completed successfully! ===")
+        print(" Redshift loading completed successfully! ")
         return f"Loaded {temp_customers_count} customers and {temp_orders_count} orders"
 
     except Exception as e:
